@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Browser Playground",
+      "runtimeExecutable": ".venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "server.playground", "--host", "127.0.0.1", "--port", "8765"],
+      "port": 8765
+    },
+    {
+      "name": "Mock Cubi Server",
+      "runtimeExecutable": ".venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "server.mock_cubi_server", "--host", "127.0.0.1", "--port", "8791", "--state-file", ".runtime/mock_cubi_state.json"],
+      "port": 8791
+    },
+    {
+      "name": "MCP Server (HTTP)",
+      "runtimeExecutable": ".venv/Scripts/python.exe",
+      "runtimeArgs": ["-m", "server.mcp_server", "--transport", "streamable-http", "--host", "127.0.0.1", "--port", "8811"],
+      "port": 8811
+    }
+  ]
+}

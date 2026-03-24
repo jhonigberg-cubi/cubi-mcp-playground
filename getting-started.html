@@ -1,0 +1,866 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubi MCP Playground — Getting Started</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #011936;
+      --navy-80:   #01294f;
+      --blue:      #009DFF;
+      --blue-dark: #0077cc;
+      --blue-lt:   #d1eaff;
+      --red:       #BE4C46;
+      --green:     #1a8a47;
+      --yellow:    #b45309;
+
+      --bg:        #ffffff;
+      --surface:   #f4f4f4;
+      --surface-2: #eaf4ff;
+      --border:    #dde3ea;
+      --border-2:  #c8d6e5;
+
+      --text:      #011936;
+      --muted:     #4a4a4a;
+      --subtle:    #767676;
+      --code-bg:   #eef4fa;
+
+      --radius:    10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    /* ─── Site header bar ─── */
+    .site-header {
+      background: var(--navy);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .site-header .brand   { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: .02em; }
+    .site-header .divider { color: #3a5a7a; margin: 0 4px; }
+    .site-header .doc-label { font-size: 12px; color: #7aafd4; font-weight: 500; }
+
+    /* ─── Page layout ─── */
+    .page { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: var(--navy);
+      margin: 0 -24px;
+      padding: 52px 24px 44px;
+      margin-bottom: 48px;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .eyebrow {
+      font-size: 11px; font-weight: 600; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--blue); margin-bottom: 10px;
+    }
+    .hero h1 { font-size: 2rem; font-weight: 700; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+    .hero p  { color: #a8c4db; max-width: 560px; font-size: 15px; font-weight: 400; }
+
+    /* ─── Section label ─── */
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--blue-dark); margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--blue-lt);
+    }
+
+    h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; color: var(--navy); }
+
+    /* ─── Expandable explainer cards ─── */
+    .explainer { display: flex; flex-direction: column; gap: 12px; margin-bottom: 52px; }
+
+    .exp-card {
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--blue);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .exp-card[open] { box-shadow: 0 4px 16px rgba(1,25,54,.08); }
+
+    .exp-summary {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 0 12px;
+      padding: 18px 20px;
+      cursor: pointer;
+      background: var(--bg);
+      user-select: none;
+    }
+    .exp-summary::-webkit-details-marker { display: none; }
+    .exp-summary:hover { background: var(--surface); }
+
+    .exp-icon   { font-size: 28px; text-align: center; }
+    .exp-title  { }
+    .exp-title h3 { font-size: 15px; font-weight: 600; color: var(--navy); }
+    .exp-title p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .exp-chevron {
+      font-size: 12px; color: var(--subtle); transition: transform .2s;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 99px; padding: 4px 10px; font-weight: 600;
+      white-space: nowrap;
+    }
+    details[open] .exp-chevron { background: var(--blue-lt); color: var(--blue-dark); border-color: var(--blue); }
+    details[open] .exp-chevron .chev-arrow { display: inline-block; transform: rotate(180deg); }
+
+    .exp-body {
+      padding: 0 24px 24px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .exp-body-inner { padding-top: 20px; }
+
+    /* ─── Tool grid inside MCP card ─── */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .tool-chip {
+      background: var(--code-bg);
+      border: 1px solid var(--border-2);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+    }
+    .tool-chip .t-name {
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 11px;
+      color: var(--blue-dark);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .tool-chip .t-desc { color: var(--muted); line-height: 1.4; }
+
+    /* ─── AI tool tabs inside MCP card ─── */
+    .ai-tabs { margin: 16px 0 0; }
+    .ai-tab-row {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .ai-tab {
+      background: transparent; border: none; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; padding: 8px 16px; font-size: 13px; font-weight: 600;
+      font-family: "Poppins", sans-serif; color: var(--muted);
+      cursor: pointer; border-radius: 6px 6px 0 0; transition: color .15s;
+    }
+    .ai-tab:hover { color: var(--navy); background: var(--surface); }
+    .ai-tab.active { color: var(--blue-dark); border-bottom-color: var(--blue); background: var(--bg); }
+    .ai-pane { display: none; }
+    .ai-pane.active { display: block; }
+
+    /* ─── OS Toggle ─── */
+    .os-toggle-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .os-toggle-wrap span { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .os-toggle {
+      display: flex; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 99px; padding: 3px; gap: 2px;
+    }
+    .os-btn {
+      background: transparent; border: none; border-radius: 99px;
+      padding: 6px 18px; font-size: 13px; font-weight: 600;
+      font-family: "Poppins", sans-serif; color: var(--muted);
+      cursor: pointer; transition: background .15s, color .15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .os-btn.active  { background: var(--navy); color: #fff; }
+    .os-btn:not(.active):hover { background: var(--border); }
+
+    /* ─── Platform visibility ─── */
+    .cmd-win, .cmd-mac   { display: none; }
+    body.os-windows .cmd-win { display: block; }
+    body.os-mac     .cmd-mac { display: block; }
+    .note-win, .note-mac { display: none; }
+    body.os-windows .note-win { display: flex; }
+    body.os-mac     .note-mac { display: flex; }
+
+    /* ─── Steps ─── */
+    .steps { display: flex; flex-direction: column; gap: 28px; margin-bottom: 52px; }
+    .step  { display: grid; grid-template-columns: 44px 1fr; gap: 0 18px; }
+    .step-num {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--blue); color: #fff; font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      margin-top: 3px; box-shadow: 0 2px 8px rgba(0,157,255,.25);
+    }
+    .step-body h3 { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .step-body p  { color: var(--muted); margin-bottom: 10px; font-size: 14px; }
+    .step-body p:last-child { margin-bottom: 0; }
+
+    /* ─── Code blocks ─── */
+    .code-block {
+      position: relative;
+      background: var(--code-bg); border: 1px solid var(--border-2);
+      border-left: 3px solid var(--blue); border-radius: 0 8px 8px 0;
+      padding: 14px 50px 14px 16px; margin: 10px 0;
+    }
+    .code-block pre {
+      font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+      font-size: 13px; color: var(--navy); white-space: pre-wrap; word-break: break-all; line-height: 1.65;
+    }
+    .copy-btn {
+      position: absolute; top: 9px; right: 10px;
+      background: var(--border); border: 1px solid var(--border-2); border-radius: 5px;
+      color: var(--subtle); font-size: 11px; font-weight: 600;
+      font-family: "Poppins", sans-serif; padding: 3px 9px; cursor: pointer;
+      letter-spacing: .04em; transition: background .15s, color .15s;
+    }
+    .copy-btn:hover  { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+
+    /* ─── Callouts ─── */
+    .callout {
+      border-radius: 8px; padding: 12px 16px; margin: 12px 0;
+      font-size: 13.5px; display: flex; gap: 10px; align-items: flex-start;
+    }
+    .callout-icon { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+    .callout.tip  { background: #e8f5ff; border: 1px solid #b3d9f5; color: var(--navy); }
+    .callout.warn { background: #fff8e6; border: 1px solid #f5d98a; color: #5a3a00; }
+    .callout p { margin: 0; line-height: 1.55; }
+    .callout strong { font-weight: 600; }
+
+    /* ─── Panel cards ─── */
+    .ui-panel {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px 22px; margin-bottom: 14px;
+    }
+    .ui-panel-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .badge {
+      font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 99px;
+    }
+    .badge.start  { background: #d4f5e2; color: #0d5c2e; border: 1px solid #a5dfbc; }
+    .badge.copy   { background: var(--blue-lt); color: var(--blue-dark); border: 1px solid #9fd4f7; }
+    .badge.browse { background: #fff3cd; color: #7a4a00; border: 1px solid #f5d98a; }
+    .badge.demo   { background: #fde8e8; color: #7a1a1a; border: 1px solid #f5b3b3; }
+    .ui-panel h3  { font-size: 15px; font-weight: 600; color: var(--navy); }
+    .ui-panel p   { font-size: 13px; color: var(--muted); margin-top: 5px; }
+    .ui-panel ul  { font-size: 13px; color: var(--muted); padding-left: 18px; margin-top: 8px; }
+    .ui-panel li  { margin-bottom: 4px; }
+
+    /* ─── Profiles table ─── */
+    .table-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 12px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    th {
+      text-align: left; padding: 10px 14px; background: var(--navy);
+      color: #fff; font-weight: 600; font-size: 12px; letter-spacing: .05em;
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--surface); }
+
+    code {
+      font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+      background: var(--code-bg); border: 1px solid var(--border-2);
+      border-radius: 4px; padding: 1px 6px; font-size: 12px; color: var(--blue-dark);
+    }
+
+    /* ─── Prompt examples ─── */
+    .prompt-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+    .prompt-list li {
+      background: var(--surface-2); border: 1px solid var(--blue-lt);
+      border-radius: 6px; padding: 9px 14px; font-size: 13px; color: var(--navy);
+      font-style: italic;
+    }
+    .prompt-list li::before { content: "💬 "; font-style: normal; }
+
+    /* ─── Endpoint list ─── */
+    .endpoint-list { list-style: none; display: flex; flex-direction: column; gap: 5px; margin: 10px 0; }
+    .endpoint-list li {
+      font-size: 13px; font-family: "Cascadia Code", Consolas, monospace;
+      background: var(--code-bg); border: 1px solid var(--border-2);
+      border-radius: 5px; padding: 6px 12px; color: var(--navy);
+    }
+    .endpoint-list .method {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      padding: 1px 6px; border-radius: 3px; margin-right: 8px;
+      font-family: "Poppins", sans-serif; vertical-align: middle;
+    }
+    .method.get  { background: #d4f5e2; color: #0d5c2e; }
+    .method.post { background: var(--blue-lt); color: var(--blue-dark); }
+
+    /* ─── Troubleshooting ─── */
+    .trouble-item { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 12px; }
+    .trouble-q {
+      background: var(--surface); padding: 13px 16px; font-weight: 600;
+      font-size: 14px; display: flex; align-items: center; gap: 10px; color: var(--navy);
+    }
+    .q-badge {
+      background: var(--red); color: #fff; font-size: 11px; font-weight: 800;
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .trouble-a {
+      background: #fff; padding: 13px 16px; font-size: 13px;
+      color: var(--muted); border-top: 1px solid var(--border);
+    }
+    .trouble-a strong { color: var(--text); font-weight: 600; }
+
+    /* ─── Sub-heading inside exp-body ─── */
+    .exp-body h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin: 18px 0 6px; }
+    .exp-body h4:first-child { margin-top: 0; }
+    .exp-body p  { font-size: 13.5px; color: var(--muted); margin-bottom: 8px; }
+    .exp-body ul { font-size: 13.5px; color: var(--muted); padding-left: 18px; margin-bottom: 8px; }
+    .exp-body li { margin-bottom: 3px; }
+
+    /* ─── Footer ─── */
+    footer {
+      background: var(--navy); margin: 48px -24px 0; padding: 24px;
+      color: #7aafd4; font-size: 13px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 8px;
+    }
+    footer strong { color: #fff; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 540px) {
+      .hero h1 { font-size: 1.5rem; }
+      .step { grid-template-columns: 34px 1fr; gap: 0 12px; }
+      .step-num { width: 30px; height: 30px; font-size: 13px; }
+      .exp-summary { grid-template-columns: 44px 1fr auto; }
+      .site-header { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body class="os-windows">
+<header class="site-header">
+  <span class="brand">Customers Bank</span>
+  <span class="divider">|</span>
+  <span class="doc-label">Cubi MCP Playground — Getting Started</span>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Getting Started Guide</p>
+    <h1>Cubi MCP Playground</h1>
+    <p>A local tool that lets you test Cubi payment flows on your own laptop — no sandbox account needed, no credentials to wait for.</p>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ── What is this? ── -->
+  <p class="section-label">What does this give you?</p>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">Click any card to learn more and see how to use it.</p>
+  <div class="explainer">
+
+    <!-- Card 1: Fake server -->
+    <details class="exp-card">
+      <summary class="exp-summary">
+        <span class="exp-icon">🏦</span>
+        <span class="exp-title">
+          <h3>A fake Cubi server</h3>
+          <p>Runs locally, behaves like the real API — no credentials needed</p>
+        </span>
+        <span class="exp-chevron"><span class="chev-arrow">▾</span> Details</span>
+      </summary>
+      <div class="exp-body">
+        <div class="exp-body-inner">
+          <h4>What it simulates</h4>
+          <p>The mock server answers real HTTP requests exactly as Cubi would. Your app doesn't need to know it's talking to a local fake.</p>
+          <ul class="endpoint-list">
+            <li><span class="method post">POST</span>/security/v1/oauth2/token</li>
+            <li><span class="method get">GET</span>/accounts/v1/</li>
+            <li><span class="method get">GET</span>/accounts/v1/{account_id}/transactions</li>
+            <li><span class="method post">POST</span>/ach/v1/outgoing/debit</li>
+            <li><span class="method post">POST</span>/ach/v1/outgoing/credit</li>
+            <li><span class="method post">POST</span>/wires/v1/outgoing</li>
+            <li><span class="method get">GET</span>/ach/v1/outgoing/{payment_id}</li>
+            <li><span class="method get">GET</span>/wires/v1/outgoing/{payment_id}</li>
+            <li><span class="method get">GET</span>/health</li>
+          </ul>
+          <h4>How to connect your app</h4>
+          <p>Start the mock, then copy the <strong>Env Bundle</strong> from the browser UI into your app's <code>.env.local</code> file. The two values that matter most are:</p>
+          <div class="code-block" style="border-left-color:var(--navy);">
+            <pre>CUBI_BASE_URL=http://127.0.0.1:8791
+CUBI_TOKEN_URL=http://127.0.0.1:8791/security/v1/oauth2/token</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <h4>State persistence</h4>
+          <p>Payments you create survive server restarts. The state is saved in <code>.runtime/mock_cubi_state.json</code>. Use <strong>Reset State</strong> in the UI whenever you want a clean slate.</p>
+        </div>
+      </div>
+    </details>
+
+    <!-- Card 2: Browser UI -->
+    <details class="exp-card">
+      <summary class="exp-summary">
+        <span class="exp-icon">🖥️</span>
+        <span class="exp-title">
+          <h3>A browser UI</h3>
+          <p>Point-and-click interface — no API knowledge required</p>
+        </span>
+        <span class="exp-chevron"><span class="chev-arrow">▾</span> Details</span>
+      </summary>
+      <div class="exp-body">
+        <div class="exp-body-inner">
+          <h4>What each panel does</h4>
+          <div class="ui-panel" style="margin-bottom:10px;">
+            <div class="ui-panel-head"><span class="badge start">Start / Stop</span><h3>Mock Runtime</h3></div>
+            <p>Choose a port and profile, start or stop the mock, and view the live health response. This is the first panel you'll use every session.</p>
+          </div>
+          <div class="ui-panel" style="margin-bottom:10px;">
+            <div class="ui-panel-head"><span class="badge copy">Copy Config</span><h3>Env Bundle</h3></div>
+            <p>Pre-filled environment variables your app needs to talk to the mock. Click <strong>Copy</strong> and paste into your <code>.env.local</code> file.</p>
+          </div>
+          <div class="ui-panel" style="margin-bottom:10px;">
+            <div class="ui-panel-head"><span class="badge copy">AI Tools</span><h3>MCP Config</h3></div>
+            <p>The config snippet for connecting Claude Code, Claude Desktop, or Cursor to the MCP server. See the MCP card below for full instructions.</p>
+          </div>
+          <div class="ui-panel" style="margin-bottom:10px;">
+            <div class="ui-panel-head"><span class="badge browse">Browse Data</span><h3>Accounts</h3></div>
+            <p>Click <strong>Load</strong> to see seeded accounts. Click any account card to browse its transaction history.</p>
+          </div>
+          <div class="ui-panel" style="margin-bottom:0;">
+            <div class="ui-panel-head"><span class="badge demo">Try a Payment</span><h3>Demo Payment</h3></div>
+            <p>Create a fake wire or ACH payment and click <strong>Poll Latest</strong> to watch it progress: <code>ACCEPTED</code> → <code>IN_PROCESS</code> → <code>SETTLED</code>.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Card 3: MCP server -->
+    <details class="exp-card">
+      <summary class="exp-summary">
+        <span class="exp-icon">🤖</span>
+        <span class="exp-title">
+          <h3>An MCP server</h3>
+          <p>Let Claude, Cursor, or any MCP-compatible AI assistant control the mock</p>
+        </span>
+        <span class="exp-chevron"><span class="chev-arrow">▾</span> Details</span>
+      </summary>
+      <div class="exp-body">
+        <div class="exp-body-inner">
+
+          <h4>What is MCP?</h4>
+          <p>MCP (Model Context Protocol) is an open standard that lets AI assistants call external tools. Once you connect this playground to your AI tool, it gains 10 actions it can call — letting it start the mock, browse accounts, create payments, and more, just from a plain-language request.</p>
+
+          <h4>Step 1 — Get your config snippet</h4>
+          <p>Start the playground (see setup steps below), start the mock from the UI, then click <strong>Copy</strong> in the <strong>MCP Config</strong> panel. The snippet has your exact file paths already filled in and looks like this:</p>
+          <div class="code-block">
+            <pre>{
+  "mcpServers": {
+    "cubi-mock-playground": {
+      "command": "C:\\...\\cubi-mcp-playground\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "server.mcp_server"],
+      "cwd": "C:\\...\\cubi-mcp-playground"
+    }
+  }
+}</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p style="margin-top:4px;">Use the snippet from the UI — it has your real paths. The above is just an example of the shape.</p>
+
+          <h4>Step 2 — Add to your AI tool</h4>
+          <div class="ai-tabs">
+            <div class="ai-tab-row">
+              <button class="ai-tab active" onclick="switchTab(this,'tab-ccode')">Claude Code</button>
+              <button class="ai-tab" onclick="switchTab(this,'tab-cdesktop')">Claude Desktop</button>
+              <button class="ai-tab" onclick="switchTab(this,'tab-cursor')">Cursor</button>
+              <button class="ai-tab" onclick="switchTab(this,'tab-http')">Other / HTTP</button>
+            </div>
+
+            <!-- Claude Code -->
+            <div class="ai-pane active" id="tab-ccode">
+              <p>In your terminal, run the <code>claude mcp add</code> command. Replace the paths with the values from the <strong>MCP Config</strong> panel in the UI:</p>
+              <div class="cmd-win">
+                <div class="code-block">
+                  <pre>claude mcp add cubi-mock-playground -s user -- ".venv\Scripts\python.exe" -m server.mcp_server</pre>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <p>Run this command from inside the <code>cubi-mcp-playground</code> folder. The <code>-s user</code> flag makes it available across all your projects.</p>
+              </div>
+              <div class="cmd-mac">
+                <div class="code-block">
+                  <pre>claude mcp add cubi-mock-playground -s user -- ".venv/bin/python" -m server.mcp_server</pre>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <p>Run this command from inside the <code>cubi-mcp-playground</code> folder. The <code>-s user</code> flag makes it available across all your projects.</p>
+              </div>
+              <p>Alternatively, paste the JSON snippet from the MCP Config panel directly into <code>.claude.json</code> at the repo root, or into <code>~/.claude.json</code> for global access.</p>
+              <div class="callout tip">
+                <span class="callout-icon">💡</span>
+                <p>After adding, type <code>/mcp</code> in Claude Code to confirm the server shows as connected.</p>
+              </div>
+            </div>
+
+            <!-- Claude Desktop -->
+            <div class="ai-pane" id="tab-cdesktop">
+              <p>Open the Claude Desktop config file in a text editor:</p>
+              <div class="cmd-win">
+                <div class="code-block">
+                  <pre>%APPDATA%\Claude\claude_desktop_config.json</pre>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <p>Paste the snippet from the <strong>MCP Config</strong> panel into the <code>"mcpServers"</code> block. If the file is empty, paste the full JSON including the outer braces. Save the file and <strong>restart Claude Desktop</strong>.</p>
+              </div>
+              <div class="cmd-mac">
+                <div class="code-block">
+                  <pre>~/Library/Application Support/Claude/claude_desktop_config.json</pre>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <p>Paste the snippet from the <strong>MCP Config</strong> panel into the <code>"mcpServers"</code> block. If the file is empty, paste the full JSON including the outer braces. Save the file and <strong>restart Claude Desktop</strong>.</p>
+              </div>
+              <div class="callout tip">
+                <span class="callout-icon">💡</span>
+                <p>After restarting, look for the <strong>hammer icon</strong> (🔨) in the chat input bar — that confirms MCP tools are available.</p>
+              </div>
+            </div>
+
+            <!-- Cursor -->
+            <div class="ai-pane" id="tab-cursor">
+              <p>Open Cursor and navigate to:</p>
+              <p><strong>Settings → Cursor Settings → Features → MCP Servers → Add new MCP server</strong></p>
+              <p>Paste the snippet from the <strong>MCP Config</strong> panel into the config field. Cursor will automatically detect and connect to the server. No restart required.</p>
+              <div class="callout tip">
+                <span class="callout-icon">💡</span>
+                <p>The mock must be running (started from the browser UI) before Cursor can call its tools. Start the mock first, then ask Cursor to use it.</p>
+              </div>
+            </div>
+
+            <!-- HTTP transport -->
+            <div class="ai-pane" id="tab-http">
+              <p>For AI tools or MCP clients that prefer an HTTP endpoint instead of a local process, run the MCP server in HTTP mode:</p>
+              <div class="cmd-win">
+                <div class="code-block">
+                  <pre>powershell -ExecutionPolicy Bypass -File .\scripts\start-mcp-http.ps1</pre>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+              </div>
+              <div class="cmd-mac">
+                <div class="code-block">
+                  <pre>.venv/bin/python -m server.mcp_server --transport streamable-http --host 127.0.0.1 --port 8811</pre>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+              </div>
+              <p>The MCP endpoint will be available at:</p>
+              <div class="code-block" style="border-left-color:var(--navy);">
+                <pre>http://127.0.0.1:8811/mcp</pre>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <p>Point your MCP client at that URL using the streamable-HTTP transport setting.</p>
+            </div>
+          </div><!-- /ai-tabs -->
+
+          <h4>What you can ask your AI assistant</h4>
+          <p>Once connected, try prompts like these:</p>
+          <ul class="prompt-list">
+            <li>"Start the Cubi mock using the returns profile and give me the env bundle."</li>
+            <li>"List the seeded accounts and show me the transactions on the first one."</li>
+            <li>"Create a wire debit for $1,200 with client reference DEMO-001, then poll it until it settles."</li>
+            <li>"Reset the mock state and switch to the repair profile."</li>
+            <li>"What's the current health status of the mock server?"</li>
+            <li>"Generate the MCP config snippet I need to add to my Claude Desktop config."</li>
+          </ul>
+
+          <h4>All 10 available tools</h4>
+          <div class="tool-grid">
+            <div class="tool-chip"><span class="t-name">ensure_cubi_mock_running</span><span class="t-desc">Start the mock (or confirm it's already running) with a chosen port and profile.</span></div>
+            <div class="tool-chip"><span class="t-name">stop_cubi_mock</span><span class="t-desc">Gracefully stop the running mock process.</span></div>
+            <div class="tool-chip"><span class="t-name">reset_cubi_mock_state</span><span class="t-desc">Wipe payment state and reload a named profile's seed data.</span></div>
+            <div class="tool-chip"><span class="t-name">get_cubi_mock_env</span><span class="t-desc">Return the full dotenv bundle your app needs to point at the mock.</span></div>
+            <div class="tool-chip"><span class="t-name">get_cubi_mock_health</span><span class="t-desc">Return process info and the /health endpoint response.</span></div>
+            <div class="tool-chip"><span class="t-name">get_cubi_mock_mcp_config</span><span class="t-desc">Return the MCP config JSON snippet for this repo.</span></div>
+            <div class="tool-chip"><span class="t-name">list_cubi_mock_accounts</span><span class="t-desc">Fetch all seeded accounts from the running mock.</span></div>
+            <div class="tool-chip"><span class="t-name">list_cubi_mock_transactions</span><span class="t-desc">Fetch transaction history for a specific account.</span></div>
+            <div class="tool-chip"><span class="t-name">create_cubi_mock_payment</span><span class="t-desc">Submit a wire or ACH payment to the mock and get a payment ID back.</span></div>
+            <div class="tool-chip"><span class="t-name">poll_cubi_mock_payment</span><span class="t-desc">Check the current status of a payment by ID.</span></div>
+          </div>
+
+        </div>
+      </div>
+    </details>
+
+  </div><!-- /explainer -->
+
+  <!-- ── Prerequisites ── -->
+  <p class="section-label">Before you begin</p>
+  <div class="ui-panel" style="margin-bottom: 52px;">
+    <h3>You need one thing installed: Python 3.12 or newer</h3>
+    <p>Open a terminal and run the command below to check. If the number shown is 3.12 or higher, you're good.</p>
+    <div class="code-block" style="border-left-color: var(--navy);">
+      <pre>python --version</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <p>If the version is below 3.12 or you see <em>"python is not recognized"</em>, download the latest Python from <strong>python.org</strong>. On Windows, check <strong>"Add Python to PATH"</strong> during installation.</p>
+    </div>
+    <p style="margin-top: 10px;">Everything else (PowerShell on Windows, Terminal on Mac) comes pre-installed with your operating system.</p>
+  </div>
+
+  <!-- ── One-time setup ── -->
+  <p class="section-label">One-time setup (do this once)</p>
+
+  <div class="os-toggle-wrap">
+    <span>I'm using:</span>
+    <div class="os-toggle">
+      <button class="os-btn active" id="winBtn" onclick="setOS('windows')"><span>🪟</span> Windows</button>
+      <button class="os-btn" id="macBtn" onclick="setOS('mac')"><span>🍎</span> macOS</button>
+    </div>
+  </div>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Unzip the downloaded file</h3>
+        <p>Find the <code>cubi-mcp-playground.zip</code> file you downloaded and extract it.</p>
+        <div class="cmd-win">
+          <p>In File Explorer, right-click the zip file and choose <strong>"Extract All…"</strong>. Pick a location you'll remember (e.g. Desktop or Documents) and click <strong>Extract</strong>.</p>
+          <p>Or run this in PowerShell to extract it in-place:</p>
+          <div class="code-block">
+            <pre>Expand-Archive -Path .\cubi-mcp-playground.zip -DestinationPath .</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <div class="cmd-mac">
+          <p>In Finder, <strong>double-click</strong> the zip file. macOS extracts it automatically and creates a <code>cubi-mcp-playground</code> folder next to it.</p>
+          <p>Or run this in Terminal:</p>
+          <div class="code-block">
+            <pre>unzip cubi-mcp-playground.zip</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+        </div>
+        <p>You should see a folder named <code>cubi-mcp-playground</code> with subfolders like <code>server</code>, <code>web</code>, and <code>scripts</code> inside it.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Open a terminal inside the repo folder</h3>
+        <p>All commands in this guide must be run from <em>inside</em> the <code>cubi-mcp-playground</code> folder.</p>
+        <div class="cmd-win">
+          <p>Open the <code>cubi-mcp-playground</code> folder in File Explorer. Click in an empty area of the folder, then right-click and choose <strong>"Open in Terminal"</strong> (Windows 11) or <strong>"Open PowerShell window here"</strong> (Windows 10).</p>
+        </div>
+        <div class="cmd-mac">
+          <p>Open <strong>Terminal</strong> (Applications → Utilities, or press <code>⌘ Space</code> and type Terminal). Type <code>cd </code> with a space, drag the <code>cubi-mcp-playground</code> folder from Finder into the Terminal window, then press <strong>Enter</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Create a virtual environment</h3>
+        <p>This creates an isolated Python workspace so nothing affects the rest of your machine. Run once, never again.</p>
+        <div class="cmd-win">
+          <div class="code-block"><pre>python -m venv .venv</pre><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        </div>
+        <div class="cmd-mac">
+          <div class="code-block"><pre>python3 -m venv .venv</pre><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        </div>
+        <p>A new <code>.venv</code> folder will appear inside the repo. You won't need to touch it directly.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Install dependencies</h3>
+        <p>Downloads the one Python library the project needs. Takes about 10–20 seconds.</p>
+        <div class="cmd-win">
+          <div class="code-block"><pre>.venv\Scripts\python -m pip install -r requirements.txt</pre><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        </div>
+        <div class="cmd-mac">
+          <div class="code-block"><pre>.venv/bin/python -m pip install -r requirements.txt</pre><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        </div>
+        <p>You'll see a progress line ending with <em>"Successfully installed mcp…"</em>. Setup is now complete.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Every-day use ── -->
+  <p class="section-label">Every time you want to use it</p>
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Start the browser playground</h3>
+        <p>Open a terminal inside the <code>cubi-mcp-playground</code> folder (same as Step 2) and run:</p>
+        <div class="cmd-win">
+          <div class="code-block"><pre>powershell -ExecutionPolicy Bypass -File .\scripts\start-playground.ps1</pre><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        </div>
+        <div class="cmd-mac">
+          <div class="code-block"><pre>.venv/bin/python -m server.playground</pre><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        </div>
+        <p>Leave this terminal window open while you work. You'll see <em>"Playground running on http://127.0.0.1:8765"</em>.</p>
+        <div class="callout tip note-win">
+          <span class="callout-icon">💡</span><p>If port 8765 is already in use, add <code>-Port 8780</code> to the end of the command.</p>
+        </div>
+        <div class="callout tip note-mac">
+          <span class="callout-icon">💡</span><p>If port 8765 is already in use, add <code>--port 8780</code> to the end of the command.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Open the UI in your browser</h3>
+        <p>Navigate to:</p>
+        <div class="code-block" style="border-left-color: var(--navy);">
+          <pre>http://127.0.0.1:8765</pre>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <p>You'll see the Cubi MCP Playground page. The mock server isn't running yet — that's next.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h3>Start the mock from the UI</h3>
+        <p>In the <strong>Mock Runtime</strong> panel:</p>
+        <ul style="color:var(--muted);font-size:14px;padding-left:18px;margin:8px 0 10px;">
+          <li>Leave <strong>Bind Host</strong> as <code>127.0.0.1</code></li>
+          <li>Leave <strong>Port</strong> as <code>8791</code> (or change if needed)</li>
+          <li>Choose a <strong>Profile</strong> — start with <code>default</code></li>
+          <li>Click the big <strong>Start Mock</strong> button at the top of the page</li>
+        </ul>
+        <p>The status badge flips from <em>offline</em> to <em>online</em> and the other panels fill in automatically.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Profiles ── -->
+  <p class="section-label">Choosing a profile</p>
+  <div style="margin-bottom: 52px;">
+    <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Profiles control what data and payment outcomes the mock generates.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Profile</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td><code>default</code></td><td>General use — balanced mix of accounts and normal payment progression</td></tr>
+          <tr><td><code>returns</code></td><td>Demoing ACH return scenarios (payments that come back after being sent)</td></tr>
+          <tr><td><code>repair</code></td><td>Testing the "pending repair" state — a payment that gets flagged and needs fixing</td></tr>
+          <tr><td><code>wire-heavy</code></td><td>Environments that mostly send wires rather than ACH payments</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn" style="margin-top:10px;">
+      <span class="callout-icon">⚠️</span>
+      <p>When switching profiles, check <strong>"Reset state on start"</strong> in the UI before clicking Start Mock. That clears payments from the previous session so the new profile loads cleanly.</p>
+    </div>
+  </div>
+
+  <!-- ── Point app at mock ── -->
+  <p class="section-label">Connecting your app to the mock</p>
+  <div style="margin-bottom: 52px;">
+    <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Copy the <strong>Env Bundle</strong> from the UI and save it as a local override file for your app (e.g. <code>.env.local</code>):</p>
+    <div class="code-block">
+      <pre>CUBI_MODE=real
+CUBI_BASE_URL=http://127.0.0.1:8791
+CUBI_TOKEN_URL=http://127.0.0.1:8791/security/v1/oauth2/token
+CUBI_CLIENT_ID=mock-client
+CUBI_CLIENT_SECRET=mock-secret
+CUBI_ACCOUNTS_PATH=/accounts/v1/
+CUBI_TRANSACTIONS_PATH_TEMPLATE=/accounts/v1/{account_id}/transactions</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <p>Notice <code>CUBI_MODE=real</code>. Your app stays in its normal HTTP mode — it just points at localhost. No special mock-only code paths are needed.</p>
+    </div>
+  </div>
+
+  <!-- ── Troubleshooting ── -->
+  <p class="section-label">Common problems</p>
+  <div style="margin-bottom: 40px;">
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> The UI loads but the mock badge says "offline"</div>
+      <div class="trouble-a">Normal on first load. The playground web server is up but the mock hasn't been started yet. Click <strong>Start Mock</strong> in the Mock Runtime panel.</div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> Start Mock fails immediately</div>
+      <div class="trouble-a">Port <strong>8791</strong> may already be in use. Change it to <strong>8795</strong> in the UI and try again. Copy the updated Env Bundle so your app gets the right URL.</div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> The playground script won't run — "running scripts is disabled"</div>
+      <div class="trouble-a">The command from Step 5 already includes <code>-ExecutionPolicy Bypass</code>. Make sure you're pasting the <strong>full command</strong>, not just the script filename on its own.</div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> My app is still hitting the real Cubi sandbox</div>
+      <div class="trouble-a">The app didn't pick up the local env file. Confirm <code>CUBI_BASE_URL</code> is <code>http://127.0.0.1:8791</code> in the running process. Most frameworks need a full restart to reload env files.</div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> I want a clean slate for a demo</div>
+      <div class="trouble-a">Check <strong>"Reset state on start"</strong> in the Mock Runtime panel, then click <strong>Start Mock</strong> again. All previous payments are wiped and fresh seed data loads.</div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> "python" is not recognized / command not found</div>
+      <div class="trouble-a">On Windows try <strong>py</strong>; on Mac try <strong>python3</strong>. If neither works, reinstall Python from python.org — on Windows check <strong>"Add Python to PATH"</strong> during installation.</div>
+    </div>
+
+    <div class="trouble-item">
+      <div class="trouble-q"><span class="q-badge">?</span> My AI assistant says it can't find the MCP tools</div>
+      <div class="trouble-a">The MCP server connects at startup. Make sure the playground is running and the mock is started, then <strong>restart your AI tool</strong> so it re-connects to the MCP server. In Claude Code, run <code>/mcp</code> to verify the connection status.</div>
+    </div>
+
+  </div>
+
+</div><!-- /page -->
+
+<footer>
+  <strong>Customers Bank</strong> &nbsp;·&nbsp; Cubi MCP Playground
+  <span>Open <code style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#d1eaff;">http://127.0.0.1:8765</code> after running the start command</span>
+</footer>
+
+<script>
+  function setOS(os) {
+    document.body.className = 'os-' + os;
+    document.getElementById('winBtn').classList.toggle('active', os === 'windows');
+    document.getElementById('macBtn').classList.toggle('active', os === 'mac');
+  }
+
+  function copyCode(btn) {
+    const pre = btn.previousElementSibling;
+    navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+    });
+  }
+
+  function switchTab(btn, paneId) {
+    const container = btn.closest('.ai-tabs');
+    container.querySelectorAll('.ai-tab').forEach(t => t.classList.remove('active'));
+    container.querySelectorAll('.ai-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(paneId).classList.add('active');
+  }
+</script>
+</body>
+</html>

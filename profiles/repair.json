@@ -1,0 +1,4 @@
+{
+  "name": "repair",
+  "description": "Lower repair threshold so pending-repair states are easy to trigger."
+}

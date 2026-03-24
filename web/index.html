@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cubi MCP Playground</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="shell">
+    <section class="hero panel">
+      <div>
+        <p class="eyebrow">Local Prototype Kit</p>
+        <h1>Cubi MCP Playground</h1>
+        <p class="lede">Start a Cubi-compatible localhost endpoint, inspect the generated env bundle, and try the MCP control plane before sandbox onboarding exists.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="refreshBtn" class="btn ghost">Refresh</button>
+        <button id="startBtn" class="btn">Start Mock</button>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <div class="section-head">
+          <h2>Mock Runtime</h2>
+          <span id="runtimeBadge" class="badge neutral">offline</span>
+        </div>
+        <div class="controls">
+          <label>
+            Bind Host
+            <input id="bindHostInput" value="127.0.0.1" />
+          </label>
+          <label>
+            Port
+            <input id="portInput" value="8791" />
+          </label>
+          <label>
+            Profile
+            <select id="profileSelect"></select>
+          </label>
+          <label class="checkbox">
+            <input id="resetCheckbox" type="checkbox" />
+            Reset state on start
+          </label>
+        </div>
+        <div class="button-row">
+          <button id="resetBtn" class="btn ghost">Reset State</button>
+          <button id="stopBtn" class="btn danger">Stop Mock</button>
+        </div>
+        <pre id="healthBox" class="code-box small"></pre>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <h2>Env Bundle</h2>
+          <button id="copyEnvBtn" class="mini">Copy</button>
+        </div>
+        <pre id="envBox" class="code-box"></pre>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <h2>MCP Config</h2>
+          <button id="copyMcpBtn" class="mini">Copy</button>
+        </div>
+        <pre id="mcpBox" class="code-box"></pre>
+      </article>
+    </section>
+
+    <section class="grid lower">
+      <article class="panel">
+        <div class="section-head">
+          <h2>Accounts</h2>
+          <button id="loadAccountsBtn" class="mini">Load</button>
+        </div>
+        <div id="accountsList" class="account-list"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <h2>Demo Payment</h2>
+          <span class="badge accent">HTTP + MCP</span>
+        </div>
+        <div class="controls">
+          <label>
+            Rail
+            <select id="railInput">
+              <option value="WIRE">WIRE</option>
+              <option value="ACH">ACH</option>
+            </select>
+          </label>
+          <label>
+            Direction
+            <select id="directionInput">
+              <option value="DEBIT">DEBIT</option>
+              <option value="CREDIT">CREDIT</option>
+            </select>
+          </label>
+          <label>
+            Amount
+            <input id="amountInput" value="1500.00" />
+          </label>
+          <label>
+            Source Payment ID
+            <input id="sourceIdInput" value="DEMO-WIRE-1" />
+          </label>
+          <label>
+            Client Reference
+            <input id="clientRefInput" value="CLIENT-DEMO-1" />
+          </label>
+          <label>
+            Beneficiary Bank Routing
+            <input id="routingInput" value="021000021" />
+          </label>
+        </div>
+        <div class="button-row">
+          <button id="createPaymentBtn" class="btn">Create</button>
+          <button id="pollPaymentBtn" class="btn ghost">Poll Latest</button>
+        </div>
+        <pre id="paymentBox" class="code-box"></pre>
+      </article>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

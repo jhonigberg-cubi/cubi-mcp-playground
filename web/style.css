@@ -1,0 +1,254 @@
+:root {
+  --ink: #13252e;
+  --muted: #61757d;
+  --line: rgba(19, 37, 46, 0.12);
+  --panel: rgba(255, 255, 255, 0.85);
+  --accent: #0a7c66;
+  --accent-2: #e08c2c;
+  --danger: #b9483b;
+  --shadow: 0 18px 50px rgba(19, 37, 46, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Bahnschrift", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(10, 124, 102, 0.18), transparent 28%),
+    radial-gradient(circle at top right, rgba(224, 140, 44, 0.16), transparent 22%),
+    linear-gradient(180deg, #f7fbfa 0%, #e8f1ee 100%);
+}
+
+.shell {
+  width: min(1200px, calc(100% - 32px));
+  margin: 24px auto 40px;
+  display: grid;
+  gap: 18px;
+}
+
+.panel {
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  font-size: 0.78rem;
+}
+
+h1, h2 {
+  margin: 0;
+  font-family: "Aptos Display", "Georgia", serif;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 0.95;
+  max-width: 10ch;
+}
+
+.lede {
+  margin: 12px 0 0;
+  max-width: 64ch;
+  color: var(--muted);
+}
+
+.hero-actions,
+.button-row,
+.section-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1.1fr 1fr 1fr;
+}
+
+.lower {
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.controls {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 14px 0;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox input {
+  width: auto;
+}
+
+.btn,
+.mini,
+.account-card {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease, background 140ms ease;
+}
+
+.btn:hover,
+.mini:hover,
+.account-card:hover {
+  transform: translateY(-1px);
+}
+
+.btn {
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #0a7c66, #095e53);
+  color: white;
+}
+
+.btn.ghost {
+  background: white;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn.danger {
+  background: linear-gradient(135deg, #c55a48, #9b3f32);
+  color: white;
+}
+
+.mini {
+  padding: 7px 12px;
+  background: white;
+  border-color: var(--line);
+}
+
+.badge {
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.badge.ok {
+  background: rgba(10, 124, 102, 0.12);
+  color: var(--accent);
+}
+
+.badge.neutral {
+  background: rgba(19, 37, 46, 0.08);
+  color: var(--muted);
+}
+
+.badge.accent {
+  background: rgba(224, 140, 44, 0.14);
+  color: var(--accent-2);
+}
+
+.code-box {
+  min-height: 220px;
+  margin: 0;
+  padding: 14px;
+  border-radius: 18px;
+  background: #12232b;
+  color: #e8fff8;
+  overflow: auto;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.82rem;
+}
+
+.code-box.small {
+  min-height: 150px;
+}
+
+.account-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.account-card {
+  width: 100%;
+  text-align: left;
+  padding: 14px;
+  background: linear-gradient(180deg, #ffffff, #f5fbf8);
+  border-color: var(--line);
+  display: grid;
+  gap: 4px;
+}
+
+.account-card strong {
+  font-size: 0.98rem;
+}
+
+.account-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 1040px) {
+  .grid,
+  .lower {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    width: min(100% - 20px, 1200px);
+  }
+
+  .hero {
+    flex-direction: column;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
