@@ -626,38 +626,58 @@ CUBI_TOKEN_URL=http://127.0.0.1:8791/security/v1/oauth2/token</pre>
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-body">
-        <h3>Unzip the downloaded file</h3>
-        <p>Find the <code>cubi-mcp-playground.zip</code> file you downloaded and extract it.</p>
+        <h3>Clone the repository from GitHub</h3>
+        <p>Open a terminal and run the command below to download the project onto your machine. Git is included with most systems; if the command isn't found, install it from <strong>git-scm.com</strong>.</p>
         <div class="cmd-win">
-          <p>In File Explorer, right-click the zip file and choose <strong>"Extract All…"</strong>. Pick a location you'll remember (e.g. Desktop or Documents) and click <strong>Extract</strong>.</p>
-          <p>Or run this in PowerShell to extract it in-place:</p>
+          <p>Open <strong>PowerShell</strong> (press <code>Win + R</code>, type <code>powershell</code>, press Enter) and navigate to the folder where you want to keep the project — for example, your Documents folder:</p>
           <div class="code-block">
-            <pre>Expand-Archive -Path .\cubi-mcp-playground.zip -DestinationPath .</pre>
+            <pre>cd "$env:USERPROFILE\Documents"</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>Then clone the repo:</p>
+          <div class="code-block">
+            <pre>git clone https://github.com/jhonigberg-cubi/cubi-mcp-playground.git</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
         </div>
         <div class="cmd-mac">
-          <p>In Finder, <strong>double-click</strong> the zip file. macOS extracts it automatically and creates a <code>cubi-mcp-playground</code> folder next to it.</p>
-          <p>Or run this in Terminal:</p>
+          <p>Open <strong>Terminal</strong> (press <code>⌘ Space</code>, type Terminal, press Enter) and navigate to the folder where you want to keep the project — for example, your home folder:</p>
           <div class="code-block">
-            <pre>unzip cubi-mcp-playground.zip</pre>
+            <pre>cd ~</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>Then clone the repo:</p>
+          <div class="code-block">
+            <pre>git clone https://github.com/jhonigberg-cubi/cubi-mcp-playground.git</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
         </div>
-        <p>You should see a folder named <code>cubi-mcp-playground</code> with subfolders like <code>server</code>, <code>web</code>, and <code>scripts</code> inside it.</p>
+        <p>A folder named <code>cubi-mcp-playground</code> will be created with subfolders like <code>server</code>, <code>web</code>, and <code>scripts</code> inside it.</p>
+        <div class="callout tip">
+          <span class="callout-icon">💡</span>
+          <p>You only need to clone once. Next time you just <code>cd</code> into the folder and start from Step 5.</p>
+        </div>
       </div>
     </div>
 
     <div class="step">
       <div class="step-num">2</div>
       <div class="step-body">
-        <h3>Open a terminal inside the repo folder</h3>
-        <p>All commands in this guide must be run from <em>inside</em> the <code>cubi-mcp-playground</code> folder.</p>
+        <h3>Navigate into the repo folder</h3>
+        <p>All commands in this guide must be run from <em>inside</em> the <code>cubi-mcp-playground</code> folder. Run this in the same terminal you used in Step 1:</p>
         <div class="cmd-win">
-          <p>Open the <code>cubi-mcp-playground</code> folder in File Explorer. Click in an empty area of the folder, then right-click and choose <strong>"Open in Terminal"</strong> (Windows 11) or <strong>"Open PowerShell window here"</strong> (Windows 10).</p>
+          <div class="code-block">
+            <pre>cd cubi-mcp-playground</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>Your PowerShell prompt should now end with <code>…\cubi-mcp-playground&gt;</code>. Leave this window open for the remaining steps.</p>
         </div>
         <div class="cmd-mac">
-          <p>Open <strong>Terminal</strong> (Applications → Utilities, or press <code>⌘ Space</code> and type Terminal). Type <code>cd </code> with a space, drag the <code>cubi-mcp-playground</code> folder from Finder into the Terminal window, then press <strong>Enter</strong>.</p>
+          <div class="code-block">
+            <pre>cd cubi-mcp-playground</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>Your Terminal prompt should now end with <code>cubi-mcp-playground %</code>. Leave this window open for the remaining steps.</p>
         </div>
       </div>
     </div>
