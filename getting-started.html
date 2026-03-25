@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cubi MCP Playground — Getting Started</title>
+  <title>CUBI cubiX MCP Playground — Getting Started</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -347,14 +347,14 @@
 <header class="site-header">
   <span class="brand">Customers Bank</span>
   <span class="divider">|</span>
-  <span class="doc-label">Cubi MCP Playground — Getting Started</span>
+  <span class="doc-label">CUBI cubiX MCP Playground — Getting Started</span>
 </header>
 
 <div class="hero">
   <div class="hero-inner">
     <p class="eyebrow">Getting Started Guide</p>
-    <h1>Cubi MCP Playground</h1>
-    <p>A local tool that lets you test Cubi payment flows on your own laptop — no sandbox account needed, no credentials to wait for.</p>
+    <h1>CUBI cubiX MCP Playground</h1>
+    <p>A local tool that lets you test the Customers Bank cubiX platform payment flows on your own laptop — no sandbox account needed, no credentials to wait for.</p>
   </div>
 </div>
 
@@ -370,7 +370,7 @@
       <summary class="exp-summary">
         <span class="exp-icon">🏦</span>
         <span class="exp-title">
-          <h3>A fake Cubi server</h3>
+          <h3>A "fake" cubiX server / endpoint</h3>
           <p>Runs locally, behaves like the real API — no credentials needed</p>
         </span>
         <span class="exp-chevron"><span class="chev-arrow">▾</span> Details</span>
@@ -378,7 +378,7 @@
       <div class="exp-body">
         <div class="exp-body-inner">
           <h4>What it simulates</h4>
-          <p>The mock server answers real HTTP requests exactly as Cubi would. Your app doesn't need to know it's talking to a local fake.</p>
+          <p>The mock server answers real HTTP requests exactly as cubiX would. Your app doesn't need to know it's talking to a local fake.</p>
           <ul class="endpoint-list">
             <li><span class="method post">POST</span>/security/v1/oauth2/token</li>
             <li><span class="method get">GET</span>/accounts/v1/</li>
@@ -566,7 +566,7 @@ CUBI_TOKEN_URL=http://127.0.0.1:8791/security/v1/oauth2/token</pre>
           <h4>What you can ask your AI assistant</h4>
           <p>Once connected, try prompts like these:</p>
           <ul class="prompt-list">
-            <li>"Start the Cubi mock using the returns profile and give me the env bundle."</li>
+            <li>"Start the cubiX mock endpoint using the returns profile and give me the env bundle."</li>
             <li>"List the seeded accounts and show me the transactions on the first one."</li>
             <li>"Create a wire debit for $1,200 with client reference DEMO-001, then poll it until it settles."</li>
             <li>"Reset the mock state and switch to the repair profile."</li>
@@ -748,7 +748,7 @@ CUBI_TOKEN_URL=http://127.0.0.1:8791/security/v1/oauth2/token</pre>
           <pre>http://127.0.0.1:8765</pre>
           <button class="copy-btn" onclick="copyCode(this)">Copy</button>
         </div>
-        <p>You'll see the Cubi MCP Playground page. The mock server isn't running yet — that's next.</p>
+        <p>You'll see the CUBI cubiX MCP Playground page. The mock server isn't running yet — that's next.</p>
       </div>
     </div>
 
@@ -830,7 +830,7 @@ CUBI_TRANSACTIONS_PATH_TEMPLATE=/accounts/v1/{account_id}/transactions</pre>
     </div>
 
     <div class="trouble-item">
-      <div class="trouble-q"><span class="q-badge">?</span> My app is still hitting the real Cubi sandbox</div>
+      <div class="trouble-q"><span class="q-badge">?</span> My app is still hitting the real CUBI cubiX sandbox</div>
       <div class="trouble-a">The app didn't pick up the local env file. Confirm <code>CUBI_BASE_URL</code> is <code>http://127.0.0.1:8791</code> in the running process. Most frameworks need a full restart to reload env files.</div>
     </div>
 
@@ -854,7 +854,7 @@ CUBI_TRANSACTIONS_PATH_TEMPLATE=/accounts/v1/{account_id}/transactions</pre>
 </div><!-- /page -->
 
 <footer>
-  <strong>Customers Bank</strong> &nbsp;·&nbsp; Cubi MCP Playground
+  <strong>Customers Bank</strong> &nbsp;·&nbsp; CUBI cubiX MCP Playground
   <span>Open <code style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#d1eaff;">http://127.0.0.1:8765</code> after running the start command</span>
 </footer>
 
